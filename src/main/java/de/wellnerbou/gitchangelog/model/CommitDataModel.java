@@ -1,5 +1,7 @@
 package de.wellnerbou.gitchangelog.model;
 
+import java.util.List;
+
 /**
  * Creating another commit object for clean data mapping.
  *
@@ -11,10 +13,12 @@ public class CommitDataModel {
 
 	private final String hash;
 	private final String fullMessage;
+	private final List<String> tagNames;
 
-	public CommitDataModel(final int commitTime, final String hash, final String fullMessage) {
+	public CommitDataModel(final int commitTime, final String hash, final String fullMessage, final List<String> tagNames) {
 		this.hash = hash;
 		this.fullMessage = fullMessage;
+		this.tagNames = tagNames;
 	}
 
 	public String getHash() {
@@ -27,5 +31,10 @@ public class CommitDataModel {
 
 	public String getFullMessage() {
 		return fullMessage;
+	}
+
+	/** @return the name of any tag that points to a commit */
+	public List<String> getTagNames() {
+		return tagNames;
 	}
 }

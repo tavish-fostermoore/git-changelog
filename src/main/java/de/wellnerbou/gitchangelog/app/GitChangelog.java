@@ -9,6 +9,7 @@ import de.wellnerbou.gitchangelog.model.CommitDataModel;
 import de.wellnerbou.gitchangelog.model.RevRange;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.codec.binary.StringUtils;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -31,6 +32,7 @@ public class GitChangelog {
 			gitChangelog.print(changelog);
 		} catch (Exception e) {
 			System.out.println(e.getClass().getSimpleName() + " parsing options: " + e.getMessage());
+			e.printStackTrace();
 			appArgs.printHelp(System.out);
 			System.out.flush();
 		}
@@ -73,11 +75,11 @@ public class GitChangelog {
 	 * revisions and the list of jira tickets found in the commit messages between.
 	 * @throws IOException
 	 */
-	public Changelog changelog() throws IOException {
+	public Changelog changelog() throws IOException, GitAPIException {
 		final File repo = new File(gitChangelogArgs.getRepo());
 		final FileRepositoryBuilder builder = new FileRepositoryBuilder();
 		final Repository repository = builder.readEnvironment().findGitDir(repo).build();
-		final GitLogBetween gitLogBetween = new GitLogBetween(repository, new CommitDataModelMapper());
+		final GitLogBetween gitLogBetween = new GitLogBetween(repository, new CommitDataModelMapper(repository));
 
 		RevRange revRange = getRevRange(gitChangelogArgs, repository);
 		final Iterable<CommitDataModel> revs = gitLogBetween.getGitLogBetween(revRange.fromRev, revRange.toRev);

@@ -1,2 +1,3 @@
 de.wellnerbou.gitchangelog.processors.jira.JiraFilterChangelogProcessor
+de.wellnerbou.gitchangelog.processors.jira.version.JiraVersionFilterChangelogProcessor
 de.wellnerbou.gitchangelog.processors.basic.BasicChangelogProcessor

@@ -9,6 +9,7 @@ import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 
 import java.io.PrintStream;
+import java.util.List;
 
 public class BasicChangelogProcessor implements ChangelogProcessor {
 
@@ -32,7 +33,8 @@ public class BasicChangelogProcessor implements ChangelogProcessor {
 		Changelog changelog = new Changelog(revRange.fromRev, revRange.toRev);
 		out.println("Commits between " + revRange.fromRev + " and " + revRange.toRev + ":");
 		for(final CommitDataModel commitDataModel : revisions) {
-			changelog.addLines("* " + commitDataModel.getShortHash() + "\t" + commitDataModel.getFullMessage());
+			final String id = commitDataModel.getShortHash();
+			changelog.addLines("* " + id + "\t" + commitDataModel.getFullMessage());
 		}
 		return changelog;
 	}

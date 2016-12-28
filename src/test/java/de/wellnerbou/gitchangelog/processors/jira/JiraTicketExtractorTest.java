@@ -6,11 +6,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class JiraTicketExtractorTest {
 
+	public static final List<String> NO_TAGS = Collections.<String>emptyList();
 	private JiraTicketExtractor jiraTicketExtractor;
 
 	@Before
@@ -21,8 +24,8 @@ public class JiraTicketExtractorTest {
 	@Test
 	public void testExtractRevCommitList() {
 		Iterable<CommitDataModel> commits = Lists.newArrayList(
-				new CommitDataModel(1, "hash1", "[TEST-1234] Fixed Bugs and did something else for TEST-345"),
-				new CommitDataModel(1, "hash2", "ANOTHERPROJECT-345")
+				new CommitDataModel(1, "hash1", "[TEST-1234] Fixed Bugs and did something else for TEST-345", NO_TAGS),
+				new CommitDataModel(1, "hash2", "ANOTHERPROJECT-345", NO_TAGS)
 		);
 		final Collection<String> res = jiraTicketExtractor.extract(commits);
 		assertThat(res).contains("ANOTHERPROJECT-345");
@@ -33,8 +36,8 @@ public class JiraTicketExtractorTest {
 	@Test
 	public void testExtractRevCommitListWithSameTicketMoreThanOnce() {
 		Iterable<CommitDataModel> commits = Lists.newArrayList(
-				new CommitDataModel(1, "hash1", "[TEST-1234] Fixed Bugs"),
-				new CommitDataModel(1, "hash2", "TEST-1234")
+				new CommitDataModel(1, "hash1", "[TEST-1234] Fixed Bugs", NO_TAGS),
+				new CommitDataModel(1, "hash2", "TEST-1234", NO_TAGS)
 		);
 		final Collection<String> res = jiraTicketExtractor.extract(commits);
 		assertThat(res).containsOnly("TEST-1234");

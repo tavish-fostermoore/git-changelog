@@ -17,7 +17,7 @@ public class GitLogBetweenTest {
 	@Test
 	public void testGetGitLogBetweenBranches() throws Exception {
 		Repository repository = RepositoryHelper.openMyRepository();
-		GitLogBetween gitLogBetween = new GitLogBetween(repository, new CommitDataModelMapper());
+		GitLogBetween gitLogBetween = new GitLogBetween(repository, new CommitDataModelMapper(repository));
 		final Iterable<CommitDataModel> res = gitLogBetween.getGitLogBetween(TEST_BRANCH, "origin/master");
 		assertThat(res).isNotNull();
 	}
@@ -25,7 +25,7 @@ public class GitLogBetweenTest {
 	@Test
 	public void testGetGitLogBetweenTagAndHead() throws Exception {
 		Repository repository = RepositoryHelper.openMyRepository();
-		GitLogBetween gitLogBetween = new GitLogBetween(repository, new CommitDataModelMapper());
+		GitLogBetween gitLogBetween = new GitLogBetween(repository, new CommitDataModelMapper(repository));
 		final Iterable<CommitDataModel> res = gitLogBetween.getGitLogBetween("refs/tags/test-tag", "HEAD");
 		assertThat(res).isNotNull();
 	}
@@ -33,7 +33,7 @@ public class GitLogBetweenTest {
 	@Test
 	public void testGetGitLogBetweenAnnotatedTagAndHead() throws Exception {
 		Repository repository = RepositoryHelper.openMyRepository();
-		GitLogBetween gitLogBetween = new GitLogBetween(repository, new CommitDataModelMapper());
+		GitLogBetween gitLogBetween = new GitLogBetween(repository, new CommitDataModelMapper(repository));
 		final Iterable<CommitDataModel> res = gitLogBetween.getGitLogBetween(ANNOTATED_TEST_TAG, "HEAD");
 		assertThat(res).isNotNull();
 	}
@@ -41,7 +41,7 @@ public class GitLogBetweenTest {
 	@Test
 	public void testGetGitLogBetweenTwoCommitHashes() throws Exception {
 		Repository repository = RepositoryHelper.openMyRepository();
-		GitLogBetween gitLogBetween = new GitLogBetween(repository, new CommitDataModelMapper());
+		GitLogBetween gitLogBetween = new GitLogBetween(repository, new CommitDataModelMapper(repository));
 		final Iterable<CommitDataModel> res = gitLogBetween.getGitLogBetween("f16d2dde1a3dd8d058e07ae2f2b4ae9964191b8f", "1f3f068ebc67153506ae8360cc6ea68aab159248");
 		assertThat(res).isNotNull();
 		for (CommitDataModel commitDataModel : res) {
